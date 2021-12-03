@@ -6,7 +6,7 @@
 - 재귀형식의 알고리즘 사용, 랜덤셔플을 통한 공평하지만 다양한 형태로 매번 테이블이 달라짐
 
 
-## 예시화면
+## 📝예시화면
 ![image](/resource/timetable3.png)<br>
 <br>
 ![image](/resource/timetable2.png)<br>
