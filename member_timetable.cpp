@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <random>
 using namespace std;
+int INF=1000000000;
 struct member{
     string name;
     vector<pair<string,int>> ex_date;
@@ -23,13 +26,14 @@ public:
         getline(cin,str);
         for(int i=0;i<str.size();i++){
             if(str[i]=='/')
-                days.push_back(str.substr(i-1,i+3));
+                days.push_back(str.substr(i-1,4));
         }
         std::cout << "하루에 필요한 시간단위 수를 입력해주세요 (예- 10~11,11~12,1~2,2~3,3~4,4~5 시간에 인원이 필요하면 6입력)\n";
         std::cin >> times;
         
         table.resize(days.size(),vector<string>(times));
         std::cout << "(인원 이름) (안되는 시간)을 입력해주세요 (예- 손태균 6/19-2 6/20-1 6/20-5) 마지막인원인 경우 0을 입력해주세요\n";
+        cin.ignore();
         while(1){
             getline(cin,str);
             if(str[0] == '0')
@@ -37,33 +41,74 @@ public:
             bool flag=false;
             member tmp_mem;
             for(int i=0;i<str.size();i++){
-                if(str[i]==' ' ){
-                    if(flag==false){
+                if(str[i]==' '){
+                    if(!flag){
                         tmp_mem.name=str.substr(0,i);
                         flag=true;
                     }
                     else if(str[i-1]!=' '){
-                        tmp_mem.ex_date.push_back({str.substr(i-6,i-2),stoi(str.substr(i-1,i))});
+                        tmp_mem.ex_date.push_back({str.substr(i-6,4),stoi(str.substr(i-1,1))});
                     }
 
                 }
             }
+            tmp_mem.ex_date.push_back({str.substr(str.size()-6,4),stoi(str.substr(str.size()-1,1))});
             members.push_back(tmp_mem);
         }
-        for(member mb : members){
-            std::cout << mb.name<<'\n';
-            for(pair<string,int> st : mb.ex_date)
-                std::cout << st.first << ' ';
+    }   
+    
+    void dfs(int x,int y){
+        if(y>=times){
+            dfs(x+1,0);
+            return ;
+        }
+        else if(x>=days.size())
+            return ;
+        int min_val=INF,min_idx=-1;
+        std::random_device rd;
+        std::mt19937 g(rd());
+        shuffle(members.begin(),members.end(),g);
+        for(int i=0;i<members.size();i++){
+            bool flag = false;
+            for(pair<string,int> ed : members[i].ex_date){
+                if(days[x]==ed.first && y+1==ed.second)
+                    flag=true;
+            }
+            if(flag)
+                continue ;
+            if(min_val>members[i].work_count){
+                min_val = min(members[i].work_count,min_val);
+                min_idx = i;
+            }
+        }
+        if(min_idx!=-1){
+            table[x][y]=members[min_idx].name;
+            members[min_idx].work_count++;
+        }
+        dfs(x,y+1);
+    }
+
+    void find_table(){
+        dfs(0,0);
+        for(int i=0;i<days.size();i++){
+            std::cout << days[i] << "   ";
+        }
+        std::cout << '\n';
+        for(int j=0;j<times;j++){
+            for(int i=0;i<days.size();i++)
+                std::cout << table[i][j]<<" ";
             std::cout << '\n';
         }
+        for(member mb : members){
+            std::cout << mb.name <<" : "<< mb.work_count <<'\n';
+        }
 
-    }   
-
+    }
 
 
 };
 int main(){
     timetable tt; 
-
+    tt.find_table();
     return 0;
 }
