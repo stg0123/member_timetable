@@ -91,6 +91,7 @@ public:
 
     void find_table(){
         dfs(0,0);
+        std::cout << "------테이블-------------------------------\n";
         for(int i=0;i<days.size();i++){
             std::cout << days[i] << "   ";
         }
@@ -100,7 +101,8 @@ public:
                 std::cout << table[i][j]<<" ";
             std::cout << '\n';
         }
-        std::cout << '\n';
+        std::cout << "-----------------------------------------\n";
+        
         for(member mb : members){
             std::cout << mb.name <<" : "<< mb.work_count <<"회\n";
         }
