@@ -7,6 +7,6 @@
 
 
 ## 예시화면
-![image](/resource/timetable1.png)<br>
+![image](/resource/timetable3.png)<br>
 <br>
 ![image](/resource/timetable2.png)<br>
