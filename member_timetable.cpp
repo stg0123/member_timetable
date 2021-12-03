@@ -58,9 +58,9 @@ public:
         }
     }   
     
-    void dfs(int x,int y){
+    void recursive(int x,int y){
         if(y>=times){
-            dfs(x+1,0);
+            recursive(x+1,0);
             return ;
         }
         else if(x>=days.size())
@@ -86,11 +86,11 @@ public:
             table[x][y]=members[min_idx].name;
             members[min_idx].work_count++;
         }
-        dfs(x,y+1);
+        recursive(x,y+1);
     }
 
     void find_table(){
-        dfs(0,0);
+        recursive(0,0);
         std::cout << "------테이블-------------------------------\n";
         for(int i=0;i<days.size();i++){
             std::cout << days[i] << "   ";
