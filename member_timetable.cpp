@@ -21,18 +21,18 @@ public:
         set_val();
     }
     void set_val(){
-        std::cout << "테이블을 만들 모든 날짜를 한줄에 입력해주세요(예- 6/19 6/20 6/21 6/25 6/26 6/27 7/1 )\n";
+        std::cout << "[안내] (테이블을 만들 모든 날짜)를 한줄에 입력해주세요(예- 6/19 6/20 6/21 6/25 6/26 6/27 7/1 )\n";
         string str;
         getline(cin,str);
         for(int i=0;i<str.size();i++){
             if(str[i]=='/')
                 days.push_back(str.substr(i-1,4));
         }
-        std::cout << "하루에 필요한 시간단위 수를 입력해주세요 (예- 10~11,11~12,1~2,2~3,3~4,4~5 시간에 인원이 필요하면 6입력)\n";
+        std::cout << "[안내] (필요한 타임 수)를 입력해주세요 (예- 10~11,11~12,1~2,2~3,3~4,4~5 시간에 인원이 필요하면 6입력)\n";
         std::cin >> times;
         
         table.resize(days.size(),vector<string>(times));
-        std::cout << "(인원 이름) (안되는 시간)을 입력해주세요 (예- 손태균 6/19-2 6/20-1 6/20-5) 마지막인원인 경우 0을 입력해주세요\n";
+        std::cout << "[안내] (인원이름 안되는날짜-타임)을 입력해주세요 (예- 손태균 6/19-2 6/20-1 6/20-5) 마지막인원인 경우 0을 입력해주세요\n";
         cin.ignore();
         while(1){
             getline(cin,str);
@@ -52,7 +52,8 @@ public:
 
                 }
             }
-            tmp_mem.ex_date.push_back({str.substr(str.size()-6,4),stoi(str.substr(str.size()-1,1))});
+            if(str.back()!=' ')
+                tmp_mem.ex_date.push_back({str.substr(str.size()-6,4),stoi(str.substr(str.size()-1,1))});
             members.push_back(tmp_mem);
         }
     }   
@@ -99,8 +100,9 @@ public:
                 std::cout << table[i][j]<<" ";
             std::cout << '\n';
         }
+        std::cout << '\n';
         for(member mb : members){
-            std::cout << mb.name <<" : "<< mb.work_count <<'\n';
+            std::cout << mb.name <<" : "<< mb.work_count <<"회\n";
         }
 
     }
