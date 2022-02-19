@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <random>
 using namespace std;
-int INF=1000000000;
+int INF=4000000;
 struct member{
     string name;
     vector<pair<string,int>> ex_date;
